@@ -19,8 +19,9 @@ def get_tareas(id_user: str):
 @tarea.post("/tasks/{id_user}",response_model=Tarea,tags=["Tareas"])
 def tarea_user(tarea: Tarea, id_user:str):
     new_tarea = {"id_user": id_user, "tarea": tarea.tarea , "descri":tarea.descri}
-    result =conn.execute(tareas.insert().values(new_tarea))
+    result = conn.execute(tareas.insert().values(new_tarea))
     new_tarea_id = result.lastrowid
+    conn.commit()
     new_tarea1 = conn.execute(tareas.select().where(tareas.c.id_tarea == new_tarea_id)).first()
     return new_tarea1 
 
